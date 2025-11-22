@@ -80,6 +80,19 @@ class TestTokenizer(unittest.TestCase):
         self.assertEqual(tokens[1].value, 0.5)
         self.assertEqual(tokens[2].value, 123.456)
     
+    def test_tokenize_dot_not_part_of_number(self):
+        """Test that standalone dots are tokenized as DOT, not part of numbers."""
+        tokenizer = Tokenizer("x.y")
+        tokens = tokenizer.tokenize()
+        
+        self.assertEqual(len(tokens), 3)
+        self.assertEqual(tokens[0].type, TokenType.IDENTIFIER)
+        self.assertEqual(tokens[0].value, "x")
+        self.assertEqual(tokens[1].type, TokenType.DOT)
+        self.assertEqual(tokens[1].value, ".")
+        self.assertEqual(tokens[2].type, TokenType.IDENTIFIER)
+        self.assertEqual(tokens[2].value, "y")
+    
     def test_tokenize_identifiers(self):
         """Test tokenizing identifiers."""
         tokenizer = Tokenizer("x variable_name _private count123")

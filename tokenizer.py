@@ -177,8 +177,9 @@ class Tokenizer:
         
         while self.current_char and (self.current_char.isdigit() or self.current_char == '.'):
             if self.current_char == '.':
-                if has_dot:
-                    break  # Second dot, stop here
+                # Check if this is a decimal point followed by a digit
+                if has_dot or not (self.peek() and self.peek().isdigit()):
+                    break  # Second dot or dot not followed by digit, stop here
                 has_dot = True
             num_str += self.current_char
             self.advance()
